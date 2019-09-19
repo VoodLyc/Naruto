@@ -1,18 +1,19 @@
 package model;
+import java.io.Serializable;
 
 /**
 *<b>Description:</b> The class Technique in the package model.<br>
 *@author Johan Giraldo.
 */
 
-public class Technique {
+public class Technique implements Serializable {
 
 //Attributes
 	
+	private static final long serialVersionUID = -7733119021681737732L;
 	private String name;
 	private double factor;
 	private Technique next;
-	private int size;
 	
 	
 //Constructor
@@ -30,6 +31,5 @@ public class Technique {
 		this.name = name;
 		this.factor = factor;
 		next = null;
-		size = 0;
 	}
 }

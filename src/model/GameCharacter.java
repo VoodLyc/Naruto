@@ -1,20 +1,22 @@
 package model;
+import java.io.Serializable;
 
 /**
 *<b>Description:</b> The class GameCharacter in the package model.<br>
 *@author Johan Giraldo.
 */
 
-public class GameCharacter {
+public class GameCharacter implements Serializable {
 
 //Attributes
 	
+	private static final long serialVersionUID = -5403520228781839941L;
 	private String name;
 	private String personality;
 	private String creationDate;
 	private int powerLevel;
 	private GameCharacter next;
-	private GameCharacter previous;
+	private GameCharacter prev;
 	private int size;
 	private Technique firstTechnique;
 	
@@ -37,9 +39,72 @@ public class GameCharacter {
 		this.creationDate = creationDate;
 		this.powerLevel = powerLevel;
 		next = null;
-		previous = null;
+		prev = null;
 		size = 0;
 		firstTechnique = null;
 	}
-
+	
+	//Getters
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute next.<br>
+	*@return The attribute next.
+	*/
+	
+	public GameCharacter getNext() {
+		
+		return next;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute previous.<br>
+	*@return The attribute previous.
+	*/
+	
+	public GameCharacter getPrev() {
+		
+		return prev;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute size.<br>
+	*@return The attribute size.
+	*/
+	
+	public int getSize() {
+		
+		return size;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute name.<br>
+	*@return The attribute name.
+	*/
+	
+	public String getName() {
+		
+		return name;
+	}
+	
+	//Setters
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute next.<br>
+	*/
+	
+	public void setNext(GameCharacter character) {
+		
+		next = character;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute previous.<br>
+	*/
+	
+	public void setPrev(GameCharacter character) {
+		
+		prev = character;
+	}
+	
+	//Methods
 }

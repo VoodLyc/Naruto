@@ -1,10 +1,15 @@
 package ui;
 
+/**
+*<b>Description:</b> The class Main in the package ui.<br>
+*@author Johan Giraldo.
+*/
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
+		Menu m = new Menu();
 	}
 
 }

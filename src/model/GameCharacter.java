@@ -17,7 +17,6 @@ public class GameCharacter implements Serializable {
 	private int powerLevel;
 	private GameCharacter next;
 	private GameCharacter prev;
-	private int size;
 	private Technique firstTechnique;
 	
 //Constructor
@@ -40,7 +39,6 @@ public class GameCharacter implements Serializable {
 		this.powerLevel = powerLevel;
 		next = null;
 		prev = null;
-		size = 0;
 		firstTechnique = null;
 	}
 	
@@ -67,13 +65,33 @@ public class GameCharacter implements Serializable {
 	}
 	
 	/**
-	*<b>Description:</b> This method allows returning the attribute size.<br>
-	*@return The attribute size.
+	*<b>Description:</b> This method allows returning the attribute personality.<br>
+	*@return The attribute personality.
 	*/
 	
-	public int getSize() {
+	public String getPersonality() {
 		
-		return size;
+		return personality;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute creationDate.<br>
+	*@return The attribute creationDate.
+	*/
+	
+	public String getCreationDate() {
+		
+		return creationDate;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute powerLevel.<br>
+	*@return The attribute powerLevel.
+	*/
+	
+	public int getPowerLevel() {
+		
+		return powerLevel;
 	}
 	
 	/**

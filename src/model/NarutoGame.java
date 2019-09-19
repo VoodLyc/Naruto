@@ -99,7 +99,7 @@ public class NarutoGame {
 		
 		try {
 			
-			file = new FileOutputStream("/data/Clans.clan");
+			file = new FileOutputStream("data/Clans.clan");
 			output = new ObjectOutputStream(file);
 			output.writeObject(clans);
 			output.close();
@@ -125,7 +125,7 @@ public class NarutoGame {
 		File file;
 		FileInputStream object;
 		ObjectInputStream input;
-		file = new File("/data/Clans.clan");
+		file = new File("data/Clans.clan");
 		
 		if(file.exists()) {
 			
@@ -153,7 +153,6 @@ public class NarutoGame {
 		else {
 			
 			saveClans();
-			
 		}
 	}
 }

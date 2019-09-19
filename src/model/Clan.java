@@ -13,7 +13,6 @@ public class Clan implements Serializable {
 	private static final long serialVersionUID = 190832976922047379L;
 	private String name;
 	private GameCharacter firstCharacter;
-	private int size;
 
 //Constructor
 	
@@ -28,7 +27,6 @@ public class Clan implements Serializable {
 		
 		this.name = name;
 		firstCharacter = null;
-		size = 0;
 	}
 	
 //Getters
@@ -41,16 +39,6 @@ public class Clan implements Serializable {
 	public String getName() {
 		
 		return name;
-	}
-	
-	/**
-	*<b>Description:</b> This method allows returning the attribute size<br>
-	*@return The attribute size.
-	*/
-	
-	public int getSize() {
-		
-		return size;
 	}
 	
 	/**
@@ -83,16 +71,30 @@ public class Clan implements Serializable {
 		firstCharacter = first;
 	}
 	
+//Methods
+	
 	/**
-	*<b>Description:</b> This method allows setting the attribute name<br>
+	*<b>Description:</b> This method allows returning the character linked lists size<br>
+	*@return The size of the linked list.
 	*/
 	
-	public void setSize(int size) {
+	public int getSize() {
 		
-		this.size = size;
+		int size = 0;
+		GameCharacter tmp = getFirst();
+		
+		if(tmp != null) {
+			
+			size++;
+			
+			while((tmp = tmp.getNext()) != null) {
+				
+				size++;
+			}
+		}
+		
+		return size;
 	}
-	
-//Methods
 	
 	/**
 	*<b>Description:</b> The constructor of the class GameCharacter.<br>
@@ -151,7 +153,7 @@ public class Clan implements Serializable {
 	
 	/**
 	*<b>Description:</b> This method allows adding the character as the head of the linked list.<br>
-	*@param character The character that does you want to add.
+	*@param character The character that does you want to add. Must be != null.
 	*/
 	
 	public void addFirst(GameCharacter character) {
@@ -160,44 +162,31 @@ public class Clan implements Serializable {
 		
 		if(first == null) {
 			
-			first = character;
+			setFirst(character);
 		}
 		else {
 			
 			first.setPrev(character);
 			character.setNext(first);
 			setFirst(character);
-			setSize(getSize() + 1);
 		}
 	}
 	
 	/**
 	*<b>Description:</b> This method allows getting the character by the index.<br>
-	*@param index The position of the character that does you want to get. The index must be >= 0 and minor to size.
+	*@param index The position of the character that does you want to get. The index must be >= 0 and minor to the characters linked list size.
 	*@return The character in that position.
 	*/
 	
 	public GameCharacter getCharacter(int index) {
 		
-		GameCharacter character = null;
-		GameCharacter first = getFirst();
+		GameCharacter character = getFirst();
+		int counter = 0;
 		
-		if(index == 0) {
+		while(counter < index) {
 			
-			character = first;
-		}
-		else {
-			
-			int counter = 0;
-			GameCharacter tmp = first;
-			
-			while(counter < index) {
-				
-				tmp = tmp.getNext();
-				counter++;
-			}
-			
-			character = tmp;
+			character = character.getNext();
+			counter++;
 		}
 		
 		return character;
@@ -206,33 +195,45 @@ public class Clan implements Serializable {
 	/**
 	*<b>Description:</b> This method allows setting the character by the index.<br>
 	*<b>Post:</b> The character was replaced.<br>
-	*@param index The position of the character that does you want to replace. The index must be >= 0 and minor to size.
-	*@param character The character that does you want to set.
+	*@param index The position of the character that does you want to replace. The index must be >= 0 and minor to the characters linked list size.
+	*@param character1 The character that does you want to set.
 	*/
 	
-	public void setCharacter(int index, GameCharacter character) {
+	public void setCharacter(int index, GameCharacter character1) {
 		
-		GameCharacter first = getFirst();
+		
+		GameCharacter tmp = getCharacter(index);
+		GameCharacter character = new GameCharacter(character1.getName(), character1.getPersonality(), character1.getCreationDate(), character1.getPowerLevel());
 		
 		if(index == 0) {
 			
-			character.setNext(first.getNext());
-			setFirst(character);
-		}
-		else {
+			character.setNext(tmp.getNext());
 			
-			int counter = 0;
-			GameCharacter tmp = first;
-			
-			while(counter < index) {
+			if((tmp = tmp.getNext()) != null) {
 				
-				tmp = tmp.getNext();
-				counter++;
+				tmp.setPrev(character);
 			}
 			
-			character.setNext(tmp.getNext());
+			setFirst(character);
+		}
+		
+		else if(index == getSize() - 1) {
+			
 			tmp = tmp.getPrev();
 			tmp.setNext(character);
+			character.setPrev(tmp);
+		}
+		
+		else {
+			
+			GameCharacter tmp2;
+			
+			character.setNext(tmp.getNext());
+			character.setPrev(tmp.getPrev());
+			tmp2 = tmp.getPrev();
+			tmp2.setNext(character);
+			tmp = tmp.getNext();
+			tmp.setPrev(character);			
 		}
 	}
 }

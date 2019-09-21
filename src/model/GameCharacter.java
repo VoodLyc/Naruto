@@ -1,12 +1,13 @@
 package model;
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
 *<b>Description:</b> The class GameCharacter in the package model.<br>
 *@author Johan Giraldo.
 */
 
-public class GameCharacter implements Serializable {
+public class GameCharacter implements Serializable, Comparable <GameCharacter>, Comparator <GameCharacter> {
 
 //Attributes
 	
@@ -125,4 +126,27 @@ public class GameCharacter implements Serializable {
 	}
 	
 	//Methods
+	
+	@Override
+	public int compareTo(GameCharacter character) {
+		
+		int result = 0;
+		
+		if(getName().compareToIgnoreCase(character.getName()) > 0) {
+			
+			result = 1;
+		}
+		else if (getName().compareToIgnoreCase(character.getName()) < 0) {
+			
+			result = -1;
+		}
+
+		return result;
+	}
+
+	@Override
+	public int compare(GameCharacter character, GameCharacter character2) {
+		
+		return 0;
+	}
 }

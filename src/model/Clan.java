@@ -236,4 +236,108 @@ public class Clan implements Serializable {
 			tmp.setPrev(character);			
 		}
 	}
+	
+	/**
+	*<b>Description:</b> This method allows sorting the character from minor to major by the name.<br>
+	*<b>Post:</b> The characters are sorted by name from minor to major.<br>
+	*/
+	
+	public void sortCharactersByName() {
+		
+		for(int i = 0; i < getSize() -1; i++){
+			
+			GameCharacter minor = getCharacter(i);
+			int minorPos = i;
+			
+			for(int j = i + 1; j < getSize(); j++){
+				
+				GameCharacter actual = getCharacter(j);
+				
+				if(actual.compareTo(minor) < 0){
+					
+					minor = actual;					
+					minorPos = j;
+				}
+			}
+			
+			GameCharacter tmp = getCharacter(i);
+			setCharacter(i, minor);
+			setCharacter(minorPos, tmp);
+		}
+	}
+	
+	/**
+	*<b>Description:</b> This method allows deleting the character who matches with the name.<br>
+	*<b>Post:</b> The character was deleted from the doubly linked list.<br>
+	*/
+	
+	public boolean deleteCharacter(String name) {
+		
+		boolean deleted = false;
+		GameCharacter tmp = getFirst();
+		GameCharacter tmp2;
+		
+		if(tmp != null) {
+			
+			if(tmp.getName().equalsIgnoreCase(name)) {
+				
+				if((tmp = tmp.getNext()) != null) {
+					
+					setFirst(tmp);
+					tmp.setPrev(null);
+					deleted = true;
+				}
+				else {
+					
+					setFirst(null);
+					deleted = true;
+				}
+			}
+			else {
+				
+				while(tmp != null && !tmp.getName().equalsIgnoreCase(name)) {
+					
+					tmp = tmp.getNext();
+				}
+				
+				if(tmp != null) {
+					
+					tmp2 = tmp.getPrev();
+					tmp2.setNext(tmp.getNext());
+					deleted = true;
+					
+					if((tmp = tmp.getNext()) != null) {
+						
+						tmp.setPrev(tmp2);
+						
+					}		
+				}	
+			}	
+		}
+		
+		return deleted;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows getting the character with that name.<br>
+	*@param name the character's name
+	*@return the character with that name, if the character couldn't be found, return null.
+	*/
+	
+	public GameCharacter getCharacterByName(String name) {
+		
+		GameCharacter character = null;
+		boolean running = true;
+		
+		for(int i = 0; i < getSize() && running; i++) {
+			
+			if(getCharacter(i).getName().equals(name)) {
+				
+				character = getCharacter(i);
+				running = false;
+			}
+		}
+		
+		return character;
+	}
 }

@@ -340,4 +340,20 @@ public class Clan implements Serializable {
 		
 		return character;
 	}
+	
+	/**
+	*<b>Description:</b> This method allows converting the clan's attributes in a String.<br>
+	*@return A String with the clan's attributes.
+	*/
+	
+	@Override
+	public String toString() {
+		
+		String toString;
+		
+		toString = "Name: " + getName() + "\n";
+		toString += "Number of characters: " + getSize() + "\n";
+		
+		return toString;
+	}
 }

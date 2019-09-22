@@ -42,7 +42,7 @@ public class NarutoGame {
 	
 	public boolean addClan(String name) {
 		
-		boolean added = true;
+		boolean added;
 		
 		try {
 			
@@ -53,6 +53,7 @@ public class NarutoGame {
 			else {
 				
 				clans.add(new Clan(name));
+				added = true;
 			}
 		}
 		catch(IllegalNameException e) {
@@ -77,7 +78,7 @@ public class NarutoGame {
 		
 		for(int i = 0; i < clans.size() && running; i++) {
 			
-			if(clans.get(i).getName().equals(name)) {
+			if(clans.get(i).getName().equalsIgnoreCase(name)) {
 				
 				exist = true;
 				running = false;
@@ -155,4 +156,81 @@ public class NarutoGame {
 			saveClans();
 		}
 	}
+	
+	/**
+	*<b>Description:</b> This method allows showing the clans.<br>
+	*@return A message with the clans.
+	*/
+	
+	public String printClans() {
+		
+		String print = "";
+		
+		for(int i = 0; i < clans.size(); i++) {
+			
+			print += clans.get(i).toString() + "\n";
+		}
+		
+		return print;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows deleting a clan by the name.<br>
+	*@return A boolean true if the clan was deleted, false if the clan couldn't be deleted.
+	*/
+	
+	public boolean deleteClan(String name) {
+		
+		boolean deleted = false;
+		
+		for(int i = 0; i < clans.size(); i++) {
+			
+			if(clans.get(i).getName().equalsIgnoreCase(name)) {
+				
+				clans.remove(i);
+				deleted = true;
+			}
+		}
+		
+		return deleted;
+	}
+	
+	
+	/**
+	*<b>Description:</b> This method allows getting a clan by the name.<br>
+	*@return The clan who matches with that name.
+	*/
+	
+	public Clan getClan(String name) {
+		
+		Clan clan = null;
+		
+		for(int i = 0; i < clans.size(); i++) {
+			
+			if(clans.get(i).getName().equalsIgnoreCase(name)) {
+				
+				clan = clans.get(i);
+			}
+		}
+		
+		return clan;
+	}
+	
+	/**
+	 *<b>Description:</b> This method allows returning the attribute clans<br>
+	 *@return The attribute clans.
+	 */
+	
+	public ArrayList<Clan> getClans() {
+		return clans;
+	}
+	
+	/**
+	 *<b>Description:</b> This method allows setting the attribute clans<br>
+	 */
+
+	public void setClans(ArrayList<Clan> clans) {
+		this.clans = clans;
+	}
+
 }

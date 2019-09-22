@@ -60,6 +60,11 @@ class ClanTest {
 		clan.addFirst(c5);
 		clan.addFirst(c6);
 	}
+	
+	private void setUpScenario5() {
+		
+		clan = new Clan("test");
+	}
 
 	@Test
 	void setCharacterTest() {
@@ -132,5 +137,50 @@ class ClanTest {
 		assertEquals(0, clan.getSize());
 		
 		assertFalse(clan.deleteCharacter(""));
+	}
+	
+	@Test
+	void getCharacterByName() {
+		
+		setUpScenario1();
+		
+		GameCharacter c1;
+		GameCharacter c2;
+		
+		c1 = clan.getCharacter(0);
+		c2 = clan.getCharacterByName("Gaara");
+		
+		assertEquals(c1, c2);
+		
+		c1 = clan.getCharacter(1);
+		c2 = clan.getCharacterByName("Sasuke");
+		
+		assertEquals(c1, c2);
+		
+		c1 = clan.getCharacter(2);
+		c2 = clan.getCharacterByName("Naruto");
+		
+		assertEquals(c1, c2);
+	}
+	
+	@Test
+	void addCharacterTest() {
+		
+		setUpScenario5();
+		
+		assertTrue(clan.addCharacter("Naruto", "", "", 8));
+		assertEquals(1, clan.getSize());
+		
+		assertFalse(clan.addCharacter("Naruto", "", "", 8));
+		assertEquals(1, clan.getSize());
+		
+		assertTrue(clan.addCharacter("Sasuke", "", "", 8));
+		assertEquals(2, clan.getSize());
+		
+		assertTrue(clan.addCharacter("Itachi", "", "", 8));
+		assertEquals(3, clan.getSize());
+		
+		assertTrue(clan.addCharacter("Kakashi", "", "", 8));
+		assertEquals(4, clan.getSize());
 	}
 }

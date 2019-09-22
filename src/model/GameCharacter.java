@@ -127,6 +127,12 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 	
 	//Methods
 	
+	/**
+	 *<b>Description:</b> This method allows comparing a character with other character by the name.<br>
+	 *@param character The character with which it compares.
+	 *@return 0 if the names are equals, 1  if the character's name is major than the character's name which it compares, -1 if the character's name is minor than the character's name which it compares.
+	 */
+	
 	@Override
 	public int compareTo(GameCharacter character) {
 		
@@ -143,10 +149,51 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 
 		return result;
 	}
+	
+	/**
+	 *<b>Description:</b> This method allows comparing a character with other character by the personality.<br>
+	 *@param character The character with which it compares.
+	 *@param character2 The other character with it compares.
+	 *@return 0 if the personalities are equals, 1  if the character's personality is major than the character's name which it compares, -1 if the character's name is minor than the character's name which it compares.
+	 */
 
 	@Override
 	public int compare(GameCharacter character, GameCharacter character2) {
 		
-		return 0;
+		int result = 0;
+		
+		if(character.getPersonality().compareTo(character2.getPersonality()) > 0) {
+			
+			result = 1;
+		}
+		
+		else if(character.getPersonality().compareTo(character2.getPersonality()) < 0) {
+			
+			result = -1;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 *<b>Description:</b> This method allows comparing a character with other character by the powerLevel.<br>
+	 *@param character The character with which it compares.
+	 *@return 0 if the poweLevel are equals, 1  if the character's powerLevel is major than the character's name which it compares, -1 if the character's powerLevel is minor than the character's powerLevel which it compares.
+	 */
+	
+	public int compareByPowerLevel(GameCharacter character) {
+		
+		int result = 0;
+		
+		if(getPowerLevel() > character.getPowerLevel()) {
+			
+			result = 1;
+		}
+		else if(getPowerLevel() < character.getPowerLevel()) {
+			
+			result = -1;
+		}
+		
+		return result;
 	}
 }

@@ -305,6 +305,39 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 	}
 	
 	/**
+	*<b>Description:</b> This method allows setting the technique by the index.<br>
+	*<b>Post:</b> The technique was replaced.<br>
+	*@param index The position of the technique that does you want to replace. The index must be >= 0 and minor to the technique linked list size.
+	*@param technique1 The technique that does you want to set.
+	*/
+	
+	public void setTechnique(int index, Technique technique1) {
+		
+		Technique tmp, tmp2;
+		Technique technique = new Technique(technique1.getName(), technique1.getFactor());
+		
+		if(index == 0) {
+			
+			tmp = getTechnique(index);
+			technique.setNext(tmp.getNext());
+			setFirst(technique);
+		}
+		else if(index == getSize() - 1) {
+			
+			tmp = getTechnique(index - 1);
+			tmp.setNext(technique);
+		}
+		else {
+			
+			tmp = getTechnique(index - 1);
+			tmp2 = tmp.getNext();
+			tmp2 = tmp2.getNext();
+			tmp.setNext(technique);
+			technique.setNext(tmp2);
+		}
+	}
+	
+	/**
 	*<b>Description:</b> This method allows checking if already exist a technique with that name.<br>
 	*@param name The technique's name.
 	*@return A boolean true if a technique with that name exists and false if don't exist.
@@ -339,7 +372,8 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 			}
 			else {
 				
-				addTechniqueSorted(new Technique(name, factor));
+				addFirst(new Technique(name, factor));
+				sortTechniquesByFactor();
 			}
 		}
 		catch(IllegalNameException e) {
@@ -351,38 +385,58 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 	}
 	
 	/**
-	*<b>Description:</b> This method allows adding a the sorted way by the factor.<br>.
-	*@param technique the technique that do you want to add.
+	*<b>Description:</b> This method allows showing the techniques.<br>
+	*@return A message with all the characters.
 	*/
 	
-	public void addTechniqueSorted(Technique technique) {
+	public String showTechniques() {
 		
-		Technique tmp = getFirst();
+		String techniques = "";
 		
-		if(tmp == null) {
+		for(int i = 0; i < getSize(); i++) {
+			
+			techniques += getTechnique(i).toString();
+		}
+		
+		return techniques;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows adding a technique as the head of the linked list.<br>
+	*@param character The character that does you want to add. Must be != null.
+	*/
+	
+	public void addFirst(Technique technique) {
+		
+		Technique first = getFirst();
+		
+		if(first == null) {
 			
 			setFirst(technique);
 		}
 		else {
 			
-			boolean running = true;
-			
-			while(running) {
+			technique.setNext(first);
+			setFirst(technique);
+		}
+	}
+	
+	/**
+	*<b>Description:</b> This method allows sorting the techniques from minor to major by the factor.<br>
+	*<b>Post:</b> The technique are sorted by the factor from minor to major.<br>
+	*/
+	
+	public void sortTechniquesByFactor() {
+		
+		for(int i = getSize(); i > 0; i--){	
+			for(int j = 0; j < i - 1; j++){
 				
-				tmp = (tmp.getNext() != null) ? tmp.getNext() : tmp;
-				running = (tmp.getFactor() < technique.getFactor()) ? true : false;
-				running = (tmp.getNext() == null) ? false : true;
-				
-			}
-			
-			if(tmp.getNext() != null) {
-				
-				technique.setNext(tmp.getNext());
-				tmp.setNext(technique);
-			}
-			else {
-				
-				tmp.setNext(technique);
+				if(getTechnique(j).compareTo(getTechnique(j+1)) > 0){
+					
+					Technique tmp = getTechnique(j);
+					setTechnique(j, getTechnique(j+1));
+					setTechnique(j+1, tmp);
+				}
 			}
 		}
 	}

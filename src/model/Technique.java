@@ -6,7 +6,7 @@ import java.io.Serializable;
 *@author Johan Giraldo.
 */
 
-public class Technique implements Serializable {
+public class Technique implements Serializable, Comparable<Technique>{
 
 //Attributes
 	
@@ -88,5 +88,38 @@ public class Technique implements Serializable {
 	}
 	
 //Methods
+	
+	public String toString() {
+		
+		String toString;
+		
+		toString = "Name: " + getName() + "\n";
+		toString += "Factor: " + getFactor();
+		
+		return toString;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows comparing a technique with other technique by the powerLevel.<br>
+	*@param technique The technique with which it compares.
+	*@return 0 if the factors are equals, 1  if the technique's factor is major than the technique's name which it compares, -1 if the technique's factor is minor than the technique's factor which it compares.
+	*/
+	
+	@Override
+	public int compareTo(Technique technique) {
+		
+		int result = 0;
+		
+		if(getFactor() > technique.getFactor()) {
+			
+			result = 1;
+		}
+		else if(getFactor() < technique.getFactor()) {
+			
+			result = -1;
+		}
+		
+		return result;
+	}
 	
 }

@@ -308,6 +308,7 @@ public class Clan implements Serializable {
 	/**
 	*<b>Description:</b> This method allows deleting the character who matches with the name.<br>
 	*<b>Post:</b> The character was deleted from the doubly linked list.<br>
+	*@param name The character's name.
 	*/
 	
 	public boolean deleteCharacter(String name) {

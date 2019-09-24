@@ -440,4 +440,82 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 			}
 		}
 	}
+	
+	/**
+	*<b>Description:</b> This method allows updating the technique.<br>
+	*<b>Post:</b> The attribute of the technique was updated.<br>
+	*@param type The type of update(1 to change the name, 2 to change the factor).
+	*@param arg The name or the factor.
+	*/
+	
+	public boolean updateTechnique(int type, String arg, Technique technique) {
+		
+		boolean updated = false;
+		
+		if(type == 1) {
+			
+			if(!checkIfExistTechniqueWithThisName(arg)) {
+				
+				technique.updateTechnique(type, arg);
+				sortTechniquesByFactor();
+				updated = true;
+			}
+				
+		}
+		else {
+			
+			technique.updateTechnique(type, arg);
+			updated = true;
+		}
+		
+		return updated;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows deleting the technique who matches with the name.<br>
+	*<b>Post:</b> The technique was deleted from the linked list.<br>
+	*@param name the technique's name.
+	*/
+	
+	public boolean deleteTechnique(String name) {
+		
+		Technique tmp = getFirst();
+		Technique tmp2;
+		int counter = 0;
+		boolean deleted = false;
+		
+		if(tmp != null) {
+			
+			if(tmp.getName().equalsIgnoreCase(name)) {
+				
+				if(tmp.getNext() != null) {
+					
+					setFirst(tmp.getNext());
+					deleted = true;
+				}
+				else {
+					
+					setFirst(null);
+					deleted = true;
+				}
+			}
+			else {
+				
+				while(tmp != null && !tmp.getName().equalsIgnoreCase(name)) {
+					
+					tmp = tmp.getNext();
+					counter++;
+				}
+				
+				tmp2 = getTechnique(counter - 1);
+				tmp = tmp.getNext();
+				tmp2.setNext(tmp);
+				
+				deleted = true;
+				
+			}
+		}
+		
+		return deleted;
+	}
 }

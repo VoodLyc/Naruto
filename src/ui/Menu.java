@@ -371,19 +371,19 @@ public class Menu {
 				
 			case 2:
 				
-				registerCharacterMenu();
+				registerTechniqueMenu();
 				
 				break;
 				
 			case 3:
 				
-				deleteCharacterMenu();
+				deleteTechnniqueMenu();
 				
 				break;
 				
 			case 4:
 				
-				showCharactersMenu();
+				System.out.println(currentCharacter.showTechniques());
 				
 				break;
 				
@@ -439,6 +439,46 @@ public class Menu {
 		return choice;
 	}
 	
+	public void registerTechniqueMenu() {
+		
+		String name;
+		double factor;
+		
+		System.out.println("Please enter the name of the technique");
+		name = scanner.nextLine();
+		
+		System.out.println("Please enter the name of the technique");
+		factor = validateDouble(0.0, 999.9);
+		
+		if(currentCharacter.addTechnique(name, factor)) {
+			
+			System.out.println("The technique was added successfully\n");
+			game.saveClans();
+		}
+		else {
+			
+			System.out.println("A technique with that name already exist\n");
+		}
+	}
+	
+	public void deleteTechnniqueMenu() {
+		
+		String name;
+		
+		System.out.println("Please enter the name of the technique that do you want to delete");
+		name = scanner.nextLine();
+		
+		if(currentCharacter.deleteTechnique(name)) {
+			
+			System.out.println("The technique was deleted successfully\n");
+			game.saveClans();
+		}
+		else {
+			
+			System.out.println("A technique with that name doesn't exist, please try again\n");
+		}
+	}
+	
 	public int validateInt(int minimum, int max){
 		
 		boolean running = true;
@@ -449,6 +489,38 @@ public class Menu {
 			try{
 
 				num = scanner.nextInt();
+				scanner.nextLine();
+			}
+			catch(InputMismatchException e){
+				
+				scanner.next();
+			}
+			
+			if(num >= minimum && num <= max){
+				
+				running = false;
+				
+			}
+			else{
+				
+				System.out.print("Invalid number, please try again\n");
+				
+			}
+		}
+		
+		return num;
+	}
+	
+	public double validateDouble(double minimum, double max){
+		
+		boolean running = true;
+		double num = 0;
+		
+		while(running){
+			
+			try{
+
+				num = scanner.nextDouble();
 				scanner.nextLine();
 			}
 			catch(InputMismatchException e){

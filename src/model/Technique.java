@@ -122,4 +122,23 @@ public class Technique implements Serializable, Comparable<Technique>{
 		return result;
 	}
 	
+	/**
+	*<b>Description:</b> This method allows updating a technique.<br>
+	*@param type The type of update.
+	*@param arg The name or factor of the technique.
+	*/
+	
+	public void updateTechnique(int type, String arg) {
+		
+		switch(type) {
+		
+		case 1:
+			
+			setName(arg);
+			
+		case 2:
+			
+			setFactor(Double.parseDouble(arg));
+		}
+	}
 }

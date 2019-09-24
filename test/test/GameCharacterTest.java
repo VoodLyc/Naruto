@@ -21,7 +21,7 @@ class GameCharacterTest {
 	}
 	
 	@Test
-	void addTechniquetest() {
+	void addTechniqueTest() {
 		
 		setUpScenario1();
 		
@@ -37,7 +37,7 @@ class GameCharacterTest {
 	}
 	
 	@Test
-	void setTechniquetest() {
+	void setTechniqueTest() {
 		
 		setUpScenario1();
 		
@@ -57,5 +57,29 @@ class GameCharacterTest {
 		character.setTechnique(2, tmp);
 		tmp = character.getTechnique(2);
 		assertEquals(2.2, tmp.getFactor());
+	}
+	
+	@Test
+	void deleteTechniqueTest() {
+		
+		setUpScenario1();
+		
+		assertTrue(character.deleteTechnique("Sasuke"));
+		assertEquals(5, character.getSize());
+		
+		assertTrue(character.deleteTechnique("Naruto"));
+		assertEquals(4, character.getSize());
+		
+		assertTrue(character.deleteTechnique("Jiraiya"));
+		assertEquals(3, character.getSize());
+		
+		assertTrue(character.deleteTechnique("Itachi"));
+		assertEquals(2, character.getSize());
+		
+		assertTrue(character.deleteTechnique("Kakashi"));
+		assertEquals(1, character.getSize());
+		
+		assertTrue(character.deleteTechnique("Anko"));
+		assertEquals(0, character.getSize());
 	}
 }

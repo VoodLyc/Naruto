@@ -65,6 +65,40 @@ class ClanTest {
 		
 		clan = new Clan("test");
 	}
+	
+	private void setUpScenario6() {
+		
+		clan = new Clan("test");
+		GameCharacter c1 = new GameCharacter("", "Judging", "", 0);
+		GameCharacter c2 = new GameCharacter("", "Jung", "", 0);
+		GameCharacter c3 = new GameCharacter("", "Feeling", "", 0);
+		GameCharacter c4 = new GameCharacter("", "Introversion", "", 0);
+		GameCharacter c5 = new GameCharacter("", "Thinking", "", 0);
+		GameCharacter c6 = new GameCharacter("", "Intuition", "", 0);
+		clan.addFirst(c1);
+		clan.addFirst(c2);
+		clan.addFirst(c3);
+		clan.addFirst(c4);
+		clan.addFirst(c5);
+		clan.addFirst(c6);
+	}
+	
+	private void setUpScenario7() {
+		
+		clan = new Clan("test");
+		GameCharacter c1 = new GameCharacter("", "", "", 16329);
+		GameCharacter c2 = new GameCharacter("", "", "", 8700);
+		GameCharacter c3 = new GameCharacter("", "", "", 2879);
+		GameCharacter c4 = new GameCharacter("", "", "", 18500);
+		GameCharacter c5 = new GameCharacter("", "", "", 4300);
+		GameCharacter c6 = new GameCharacter("", "", "", 12800);
+		clan.addFirst(c1);
+		clan.addFirst(c2);
+		clan.addFirst(c3);
+		clan.addFirst(c4);
+		clan.addFirst(c5);
+		clan.addFirst(c6);
+	}
 
 	@Test
 	void setCharacterTest() {
@@ -111,6 +145,36 @@ class ClanTest {
 		assertEquals("Jiraiya", clan.getCharacter(3).getName());
 		assertEquals("Junsai", clan.getCharacter(4).getName());
 		assertEquals("Yamato", clan.getCharacter(5).getName());
+	}
+	
+	@Test
+	void sortCharactersByPersonalityTest() {
+		
+		setUpScenario6();
+		
+		clan.sortCharactersByPersonality();
+
+		assertEquals("Feeling", clan.getCharacter(0).getPersonality());
+		assertEquals("Introversion", clan.getCharacter(1).getPersonality());
+		assertEquals("Intuition", clan.getCharacter(2).getPersonality());
+		assertEquals("Judging", clan.getCharacter(3).getPersonality());
+		assertEquals("Jung", clan.getCharacter(4).getPersonality());
+		assertEquals("Thinking", clan.getCharacter(5).getPersonality());
+	}
+	
+	@Test
+	void sortCharactersByPowerLevelTest() {
+		
+		setUpScenario7();
+		
+		clan.sortCharactersByPowerLevel();
+
+		assertEquals(2879, clan.getCharacter(0).getPowerLevel());
+		assertEquals(4300, clan.getCharacter(1).getPowerLevel());
+		assertEquals(8700, clan.getCharacter(2).getPowerLevel());
+		assertEquals(12800, clan.getCharacter(3).getPowerLevel());
+		assertEquals(16329, clan.getCharacter(4).getPowerLevel());
+		assertEquals(18500, clan.getCharacter(5).getPowerLevel());
 	}
 	
 	@Test

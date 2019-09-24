@@ -74,8 +74,8 @@ public class Clan implements Serializable {
 //Methods
 	
 	/**
-	*<b>Description:</b> This method allows returning the character linked lists size<br>
-	*@return The size of the linked list.
+	*<b>Description:</b> This method allows returning the character doubly linked lists size<br>
+	*@return The size of the doubly linked list.
 	*/
 	
 	public int getSize() {
@@ -267,6 +267,45 @@ public class Clan implements Serializable {
 	}
 	
 	/**
+	*<b>Description:</b> This method allows sorting the character from minor to major by the personality.<br>
+	*<b>Post:</b> The characters are sorted by personality from minor to major.<br>
+	*/
+	
+	public void sortCharactersByPersonality() {
+		
+		for(int i = 1; i < getSize(); i++){
+			for(int j = i - 1; j >= 0 && getCharacter(j).compare(getCharacter(j), getCharacter(j+1)) > 0; j--){
+				
+				GameCharacter one = getCharacter(j);
+				GameCharacter two = getCharacter(j+1);
+				
+				setCharacter(j, two);
+				setCharacter(j+1, one);
+			}
+		}
+	}
+	
+	/**
+	*<b>Description:</b> This method allows sorting the character from minor to major by the powerLevel.<br>
+	*<b>Post:</b> The characters are sorted by powerLevel from minor to major.<br>
+	*/
+	
+	public void sortCharactersByPowerLevel() {
+		
+		for(int i = getSize(); i > 0; i--){	
+			for(int j = 0; j < i - 1; j++){
+				
+				if(getCharacter(j).compareByPowerLevel(getCharacter(j+1)) > 0){
+					
+					GameCharacter tmp = getCharacter(j);
+					setCharacter(j, getCharacter(j+1));
+					setCharacter(j+1, tmp);
+				}
+			}
+		}
+	}
+	
+	/**
 	*<b>Description:</b> This method allows deleting the character who matches with the name.<br>
 	*<b>Post:</b> The character was deleted from the doubly linked list.<br>
 	*/
@@ -339,6 +378,73 @@ public class Clan implements Serializable {
 		}
 		
 		return character;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows showing the characters.<br>
+	*@return A message with all the characters.
+	*/
+	
+	public String printCharacters() {
+		
+		String list = "";
+		
+		for(int i = 0; i < getSize(); i++) {
+			
+			list += getCharacter(i).toString() + "\n";
+		}
+		
+		return list;
+	}
+	
+	/**
+	 *<b>Description:</b> This method allows calculating the time that took do a sort of characters.<br>
+	 *@return A list with the characters and the time that took the sort.
+	 */
+	
+	public String showCharacters(int type) {
+		
+		String list = "";
+		long t1, t2, delta;
+		
+		
+		switch(type) {
+		
+		case 1:
+			
+			t1 = System.nanoTime();
+			sortCharactersByName();
+			t2 = System.nanoTime();
+			delta = (t2 - t1);
+			list = printCharacters();
+			list += "\n" + "The sort took: " + delta + "ns" + "\n";
+			
+			break;
+			
+		case 2:
+			
+			t1 = System.nanoTime();
+			sortCharactersByPersonality();
+			t2 = System.nanoTime();
+			delta = (t2 - t1);
+			list = printCharacters();
+			list += "The sort took: " + delta + "ns" + "\n";
+			
+			break;
+			
+		case 3:
+			
+			t1 = System.nanoTime();
+			sortCharactersByPowerLevel();
+			t2 = System.nanoTime();
+			delta = (t2 - t1);
+			list = printCharacters();
+			list += "The sort took: " + delta + "ns" + "\n";
+			
+			break;
+		}
+		
+		return list;
 	}
 	
 	/**

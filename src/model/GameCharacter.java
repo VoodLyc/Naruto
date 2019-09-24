@@ -105,6 +105,16 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 		return name;
 	}
 	
+	/**
+	*<b>Description:</b> This method allows returning the attribute firstTechnique.<br>
+	*@return The attribute firstTechnique.
+	*/
+	
+	public Technique getFirst() {
+		
+		return firstTechnique;
+	}
+	
 	//Setters
 	
 	/**
@@ -124,6 +134,47 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 		
 		prev = character;
 	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute name.<br>
+	*/
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute personality.<br>
+	*/
+
+	public void setPersonality(String personality) {
+		this.personality = personality;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute creationDate.<br>
+	*/
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute powerLevel.<br>
+	*/
+
+	public void setPowerLevel(int powerLevel) {
+		this.powerLevel = powerLevel;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute firstTechnique.<br>
+	*/
+
+	public void setFirst(Technique firstTechnique) {
+		this.firstTechnique = firstTechnique;
+	}
+
 	
 	//Methods
 	
@@ -195,5 +246,144 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public String toString() {
+		
+		String toString;
+		
+		toString = "Name: " + getName() + "\n";
+		toString += "Personality: " + getPersonality() + "\n";
+		toString += "Creation date: " + getCreationDate() + "\n";
+		toString += "Power level: " + getPowerLevel() + "\n";
+		toString += "Number Of techniques: " + "\n";
+		
+		return toString;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the technique linked lists size<br>
+	*@return The size of the linked list.
+	*/
+	
+	public int getSize() {
+		
+		Technique tmp = getFirst();
+		int size = 0;
+		
+		if(tmp != null) {
+			
+			while(tmp != null) {
+				
+				tmp = tmp.getNext();
+				size++;
+			}
+		}
+		
+		return size;	
+	}
+	
+	/**
+	*<b>Description:</b> This method allows getting the technique by the index.<br>
+	*@param index The position of the technique that does you want to get. The index must be >= 0 and minor to the technique linked list size.
+	*@return The technique in that position.
+	*/
+	
+	public Technique getTechnique(int index) {
+		
+		int counter = 0;
+		Technique tmp = getFirst();
+		
+		while(counter < index) {
+			
+			tmp = tmp.getNext();
+			counter++;
+		}
+		
+		return tmp;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows checking if already exist a technique with that name.<br>
+	*@param name The technique's name.
+	*@return A boolean true if a technique with that name exists and false if don't exist.
+	*/
+	
+	public boolean checkIfExistTechniqueWithThisName(String name) {
+		
+		boolean exist = false;
+		boolean running = true;
+		
+		for(int i = 0; i < getSize() && running; i++) {
+			
+			if(getTechnique(i).getName().equalsIgnoreCase(name)) {
+				
+				exist = true;
+				running = false;
+			}
+		}
+		
+		return exist;
+	}
+	
+	public boolean addTechnique(String name, double factor) {
+		
+		boolean added = true;
+		
+		try {
+			
+			if(checkIfExistTechniqueWithThisName(name)) {
+				
+				throw new IllegalNameException("A technique with that name already exist");
+			}
+			else {
+				
+				addTechniqueSorted(new Technique(name, factor));
+			}
+		}
+		catch(IllegalNameException e) {
+			
+			added = false;
+		}
+		
+		return added;	
+	}
+	
+	/**
+	*<b>Description:</b> This method allows adding a the sorted way by the factor.<br>.
+	*@param technique the technique that do you want to add.
+	*/
+	
+	public void addTechniqueSorted(Technique technique) {
+		
+		Technique tmp = getFirst();
+		
+		if(tmp == null) {
+			
+			setFirst(technique);
+		}
+		else {
+			
+			boolean running = true;
+			
+			while(running) {
+				
+				tmp = (tmp.getNext() != null) ? tmp.getNext() : tmp;
+				running = (tmp.getFactor() < technique.getFactor()) ? true : false;
+				running = (tmp.getNext() == null) ? false : true;
+				
+			}
+			
+			if(tmp.getNext() != null) {
+				
+				technique.setNext(tmp.getNext());
+				tmp.setNext(technique);
+			}
+			else {
+				
+				tmp.setNext(technique);
+			}
+		}
 	}
 }

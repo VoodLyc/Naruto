@@ -32,4 +32,61 @@ public class Technique implements Serializable {
 		this.factor = factor;
 		next = null;
 	}
+//Getters
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute name.<br>
+	*@return The attribute name.
+	*/
+	
+	public String getName() {
+		return name;
+	}
+
+	/**
+	*<b>Description:</b> This method allows returning the attribute factor.<br>
+	*@return The attribute factor.
+	*/
+	
+	public double getFactor() {
+		return factor;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows returning the attribute next.<br>
+	*@return The attribute next.
+	*/
+	
+	public Technique getNext() {
+		return next;
+	}
+	
+//Setters
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute name.<br>
+	*/
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute factor.<br>
+	*/
+	
+	public void setFactor(double factor) {
+		this.factor = factor;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows setting the attribute next.<br>
+	*/
+
+	public void setNext(Technique next) {
+		this.next = next;
+	}
+	
+//Methods
+	
 }

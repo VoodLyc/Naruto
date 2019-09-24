@@ -72,7 +72,7 @@ public class Menu {
 				System.out.println(game.printClans());
 				
 				break;
-				
+	
 			case 5:
 				
 				running = false;
@@ -88,7 +88,7 @@ public class Menu {
 
 		while(running){
 
-			System.out.println("1. Enter a clan");
+			System.out.println("1. Enter in a clan");
 			System.out.println("2. Create a clan");
 			System.out.println("3. Delete a clan");
 			System.out.println("4. Show clans");
@@ -184,28 +184,35 @@ public class Menu {
 			
 			case 1:
 				
-				registerCharacterMenu();
+				enterInACharacterMenu();
 				
 				break;
 				
 			case 2:
 				
-				
+				registerCharacterMenu();
 				
 				break;
 				
 			case 3:
 				
-				
+				deleteCharacterMenu();
 				
 				break;
 				
 			case 4:
 				
+				showCharactersMenu();
 				
 				break;
 				
 			case 5:
+				
+				updateClan();
+				
+				break;
+				
+			case 6:
 				
 				running = false;
 			
@@ -221,11 +228,12 @@ public class Menu {
 		while(running){
 			
 			System.out.println("You are in the clan " + currentClan.getName() + "\n");
-			System.out.println("1. Enter a character");
+			System.out.println("1. Enter in a character");
 			System.out.println("2. Create a character");
 			System.out.println("3. Delete a character");
 			System.out.println("4. Show characters");
-			System.out.println("5. Exit");
+			System.out.println("5. Update clan");
+			System.out.println("6. Exit");
 						
 			try{
 
@@ -237,7 +245,7 @@ public class Menu {
 				scanner.next();
 			}
 
-			if(choice > 0 && choice < 6){
+			if(choice > 0 && choice < 7){
 
 				running = false;
 			}
@@ -278,12 +286,157 @@ public class Menu {
 		if(currentClan.addCharacter(name, personality, creationDate, powerLevel)) {
 			
 			System.out.println("The character was added successfully\n");
+			game.saveClans();
 		}
 		else {
 			
 			System.out.println("A character with that name already exist, please try again\n");
 		}
 		
+	}
+	
+	public void deleteCharacterMenu() {
+		
+		String name;
+		
+		System.out.println("Please, enter the character's name");
+		name = scanner.nextLine();
+		
+		if(currentClan.deleteCharacter(name)) {
+			
+			System.out.println("The character was deleted successfully\n");
+			game.saveClans();
+		}
+		else {
+			
+			System.out.println("A character with that name doesn't exist, please try again!\n");
+		}
+	}
+	
+	public void showCharactersMenu() {
+		
+		int choice;
+		
+		System.out.println("1. Sorted characters by the name");
+		System.out.println("2. Sorted characters by the personality");
+		System.out.println("3. Sorted characters by the power level");
+		
+		choice = validateInt(1, 3);
+		
+		System.out.println(currentClan.showCharacters(choice));
+	}
+	
+	public void updateClan() {
+		
+		String name;
+		
+		System.out.println("Please enter the new clan's name");
+		name = scanner.nextLine();
+		
+		currentClan.setName(name);
+		game.saveClans();
+	}
+	
+	public void enterInACharacterMenu() {
+		
+		System.out.println("Please enter the character's name");
+		String name = scanner.nextLine();
+		
+		if((currentCharacter = currentClan.getCharacterByName(name)) != null) {
+			
+			characterMenu();
+		}
+		else {
+			
+			System.out.println("A character with that name doesn't exist, please try again\n");
+		}
+	}
+	
+	public void characterMenu() {
+		
+		boolean running = true;
+		int choice = 0;
+		
+		while(running) {
+			
+			choice = characterOptionMenu();
+			
+			switch(choice) {
+			
+			case 1:
+				
+				
+				
+				break;
+				
+			case 2:
+				
+				registerCharacterMenu();
+				
+				break;
+				
+			case 3:
+				
+				deleteCharacterMenu();
+				
+				break;
+				
+			case 4:
+				
+				showCharactersMenu();
+				
+				break;
+				
+			case 5:
+				
+				updateClan();
+				
+				break;
+				
+			case 6:
+				
+				running = false;
+			
+			}
+		}
+	}
+	
+	public int characterOptionMenu(){
+
+		boolean running = true;
+		int choice = 0;
+
+		while(running){
+			
+			System.out.println("You are in the character " + currentCharacter.getName() + "\n");
+			System.out.println("1. Enter a technique");
+			System.out.println("2. Create a technique");
+			System.out.println("3. Delete a technique");
+			System.out.println("4. Show techniques");
+			System.out.println("5. Update character");
+			System.out.println("6. Exit");
+						
+			try{
+
+				choice = scanner.nextInt();
+				scanner.nextLine();
+			}
+			catch(InputMismatchException e){
+
+				scanner.next();
+			}
+
+			if(choice > 0 && choice < 7){
+
+				running = false;
+			}
+			else{
+				
+				System.out.println("Please enter a correct value\n");
+			}
+		}
+
+		return choice;
 	}
 	
 	public int validateInt(int minimum, int max){

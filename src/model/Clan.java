@@ -463,4 +463,17 @@ public class Clan implements Serializable {
 		
 		return toString;
 	}
+	
+	public boolean updateCharacter(String name, GameCharacter character) {
+		
+		boolean updated = false;
+		
+		if(!checkIfExistCharacterWithThisName(name)) {
+			
+			character.setName(name);
+			updated = true;
+		}
+		
+		return updated;
+	}
 }

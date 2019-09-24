@@ -395,7 +395,7 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 		
 		for(int i = 0; i < getSize(); i++) {
 			
-			techniques += getTechnique(i).toString();
+			techniques += getTechnique(i).toString() + "\n";
 		}
 		
 		return techniques;
@@ -448,23 +448,13 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 	*@param arg The name or the factor.
 	*/
 	
-	public boolean updateTechnique(int type, String arg, Technique technique) {
+	public boolean updateTechnique(String name, Technique technique) {
 		
 		boolean updated = false;
 		
-		if(type == 1) {
+		if(checkIfExistTechniqueWithThisName(name) == false) {
 			
-			if(!checkIfExistTechniqueWithThisName(arg)) {
-				
-				technique.updateTechnique(type, arg);
-				sortTechniquesByFactor();
-				updated = true;
-			}
-				
-		}
-		else {
-			
-			technique.updateTechnique(type, arg);
+			technique.setName(name);
 			updated = true;
 		}
 		
@@ -484,38 +474,67 @@ public class GameCharacter implements Serializable, Comparable <GameCharacter>, 
 		int counter = 0;
 		boolean deleted = false;
 		
-		if(tmp != null) {
+		try {
 			
-			if(tmp.getName().equalsIgnoreCase(name)) {
+			if(tmp != null) {
 				
-				if(tmp.getNext() != null) {
+				if(tmp.getName().equalsIgnoreCase(name)) {
 					
-					setFirst(tmp.getNext());
-					deleted = true;
+					if(tmp.getNext() != null) {
+						
+						setFirst(tmp.getNext());
+						deleted = true;
+					}
+					else {
+						
+						setFirst(null);
+						deleted = true;
+					}
 				}
 				else {
 					
-					setFirst(null);
-					deleted = true;
-				}
-			}
-			else {
-				
-				while(tmp != null && !tmp.getName().equalsIgnoreCase(name)) {
+					while(tmp != null && !tmp.getName().equalsIgnoreCase(name)) {
+						
+						tmp = tmp.getNext();
+						counter++;
+					}
 					
+					tmp2 = getTechnique(counter - 1);
 					tmp = tmp.getNext();
-					counter++;
+					tmp2.setNext(tmp);
+					
+					deleted = true;
+					
 				}
-				
-				tmp2 = getTechnique(counter - 1);
-				tmp = tmp.getNext();
-				tmp2.setNext(tmp);
-				
-				deleted = true;
-				
 			}
+		}
+		catch(NullPointerException e) {
+			
+			deleted = false;
 		}
 		
 		return deleted;
+	}
+	
+	/**
+	*<b>Description:</b> This method allows getting the technique with that name.<br>
+	*@param name the technique's name
+	*@return the technique with that name, if the technique couldn't be found, return null.
+	*/
+	
+	public Technique getTechniqueByName(String name) {
+		
+		Technique technique = null;
+		boolean running = true;
+		
+		for(int i = 0; i < getSize() && running; i++) {
+			
+			if(getTechnique(i).getName().equalsIgnoreCase(name)) {
+				
+				technique = getTechnique(i);
+			}
+		}
+		
+		return technique;
 	}
 }

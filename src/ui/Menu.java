@@ -1,6 +1,9 @@
 package ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import com.sun.xml.internal.bind.v2.runtime.Name;
+
 import model.NarutoGame;
 import model.Clan;
 import model.GameCharacter;
@@ -19,6 +22,7 @@ public class Menu {
 	private NarutoGame game;
 	private Clan currentClan;
 	private GameCharacter currentCharacter;
+	private Technique currentTechnique;
 	
 //Constructor
 	
@@ -215,6 +219,7 @@ public class Menu {
 			case 6:
 				
 				running = false;
+				currentClan = null;
 			
 			}
 		}
@@ -365,7 +370,7 @@ public class Menu {
 			
 			case 1:
 				
-				
+				enterInATechniqueMenu();
 				
 				break;
 				
@@ -383,19 +388,20 @@ public class Menu {
 				
 			case 4:
 				
-				System.out.println(currentCharacter.showTechniques());
+				System.out.println(currentCharacter.showTechniques() + "\n");
 				
 				break;
 				
 			case 5:
 				
-				updateClan();
+				updateCharacterMenu();
 				
 				break;
 				
 			case 6:
 				
 				running = false;
+				currentCharacter = null;
 			
 			}
 		}
@@ -447,7 +453,7 @@ public class Menu {
 		System.out.println("Please enter the name of the technique");
 		name = scanner.nextLine();
 		
-		System.out.println("Please enter the name of the technique");
+		System.out.println("Please enter the factor of the technique (a decimal number)");
 		factor = validateDouble(0.0, 999.9);
 		
 		if(currentCharacter.addTechnique(name, factor)) {
@@ -479,10 +485,230 @@ public class Menu {
 		}
 	}
 	
+	public void updateCharacterMenu() {
+		
+		String arg;
+		int powerLevel, day, month, year;
+		int choice = updateCharacterChoice();
+		
+		switch(choice) {
+		
+		case 1:
+			
+			System.out.println("Please enter the new name of the character");
+			arg = scanner.nextLine();
+			
+			if(currentClan.updateCharacter(arg, currentCharacter)) {
+				
+				System.out.println("The name of the character was changed successfully\n");
+				game.saveClans();
+			}
+			else {
+				
+				System.out.println("A character with that name already exist, please try again\n");
+			}
+			
+			break;
+			
+		case 2:
+			
+			System.out.println("Please enter the new personality of the character");
+			arg = scanner.nextLine();
+			currentCharacter.setPersonality(arg);
+			
+			System.out.println("The personality of the character was changed successfully\n");
+			game.saveClans();
+			
+			break;
+			
+		case 3:
+			
+			System.out.println("Please enter the new creation date of the character");
+			System.out.println("Please enter the character's creation day (A number between 1 and 31)");
+			day = validateInt(1, 31);	
+
+			System.out.println("Please enter the character's creation month (A number between 1 and 12)");
+			month = validateInt(1, 12);
+
+			System.out.println("Please enter the character's creation year (Example: 2015)");
+			year = validateInt(1999, 2025);
+			
+			arg = day + "/" + month + "/" + year;
+			
+			currentCharacter.setCreationDate(arg);
+			
+			System.out.println("The creationd date of the character was changed successfully\n");
+			game.saveClans();
+			
+			break;
+			
+		case 4:
+			
+			System.out.println("Please enter the new creation date of the character");
+			powerLevel = validateInt(0, 999999);
+			currentCharacter.setPowerLevel(powerLevel);
+			
+			System.out.println("The power level of the character was changed successfully\n");
+			game.saveClans();
+			
+			break;		
+		}
+	}
+	
+	public int updateCharacterChoice(){
+
+		boolean running = true;
+		int choice = 0;
+
+		while(running){
+			
+			System.out.println("1. Update name");
+			System.out.println("2. Update personality");
+			System.out.println("3. Update creation date");
+			System.out.println("4. Update power level");
+						
+			try{
+
+				choice = scanner.nextInt();
+				scanner.nextLine();
+			}
+			catch(InputMismatchException e){
+
+				scanner.next();
+			}
+
+			if(choice > 0 && choice < 5){
+
+				running = false;
+			}
+			else{
+				
+				System.out.println("Please enter a correct value\n");
+			}
+		}
+
+		return choice;
+	}
+	
+	public void enterInATechniqueMenu() {
+		
+		String name;
+		
+		System.out.println("Please enter the technique name");
+		name = scanner.nextLine();
+		
+		if((currentTechnique = currentCharacter.getTechniqueByName(name)) != null) {
+			
+			techniqueMenu();
+		}
+		else {
+			
+			System.out.println("A character with that name doesn't exist, please try again\n");
+		}
+	}
+	
+	public void techniqueMenu() {
+		
+		boolean running = true;
+		int choice = 0;
+		
+		while(running) {
+			
+			choice = techniqueOptionMenu();
+			
+			switch(choice) {
+			
+			case 1:
+				
+				updateTechniqueMenu();
+				
+				break;
+				
+			case 2:
+				
+				running = false;
+				currentTechnique = null;
+			
+			}
+		}
+	}
+	
+	public int techniqueOptionMenu(){
+
+		boolean running = true;
+		int choice = 0;
+
+		while(running){
+			
+			System.out.println("You are in the technique " + currentTechnique.getName() + "\n");
+			System.out.println("1. Update technique");
+			System.out.println("2. Exit");
+						
+			try{
+
+				choice = scanner.nextInt();
+				scanner.nextLine();
+			}
+			catch(InputMismatchException e){
+
+				scanner.next();
+			}
+
+			if(choice > 0 && choice < 3){
+
+				running = false;
+			}
+			else{
+				
+				System.out.println("Please enter a correct value\n");
+			}
+		}
+
+		return choice;
+	}
+	
+	public void updateTechniqueMenu() {
+		
+		String name;
+		double factor;
+		
+		System.out.println("1. Update name");
+		System.out.println("2. Update factor");
+		int choice = validateInt(1,2);
+		
+		if(choice == 1) {
+			
+			System.out.println("Please enter the new name of the technique\n");
+			name = scanner.nextLine();
+			
+			if(currentCharacter.updateTechnique(name, currentTechnique)) {
+				
+				System.out.println("The technique was changed successfully\n");
+				game.saveClans();
+			}
+			else {
+				
+				System.out.println("The name of the technique cannot be changed\n");
+			}
+		}
+		else {
+			
+			System.out.println("Plese enter the new factor of the technique\n");
+			
+			factor = validateDouble(0.0, 999.9);
+			currentTechnique.setFactor(factor);
+			
+			System.out.println("The factor of the technique was changed successfully\n");
+			game.saveClans();
+		}
+		
+		
+	}
+	
 	public int validateInt(int minimum, int max){
 		
 		boolean running = true;
-		int num = 0;
+		int num = -1;
 		
 		while(running){
 			
@@ -514,14 +740,13 @@ public class Menu {
 	public double validateDouble(double minimum, double max){
 		
 		boolean running = true;
-		double num = 0;
+		double num = -1;
 		
 		while(running){
 			
 			try{
 
 				num = scanner.nextDouble();
-				scanner.nextLine();
 			}
 			catch(InputMismatchException e){
 				

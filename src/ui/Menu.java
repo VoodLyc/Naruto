@@ -697,6 +697,7 @@ public class Menu {
 			
 			factor = validateDouble(0.0, 999.9);
 			currentTechnique.setFactor(factor);
+			currentCharacter.sortTechniquesByFactor();
 			
 			System.out.println("The factor of the technique was changed successfully\n");
 			game.saveClans();
